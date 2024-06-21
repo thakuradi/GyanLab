@@ -28,7 +28,7 @@ app.get("/question", async function (req, res) {
     questions,
   });
 });
-app.post("/answers", async function(req,res){
+app.post("/answers/:id", async function(req,res){
     const { id } = req.params;
     const createPayload = req.body;
     const parsePayload = CreateAns.safeParse(createPayload);
@@ -42,6 +42,9 @@ app.post("/answers", async function(req,res){
         answer:createPayload.answer,
         questionId:id
     })
+    res.json({
+        msg: "answer  added",
+      });
     
     })
 app.get("/answer", async function (req, res) {
