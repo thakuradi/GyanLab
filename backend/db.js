@@ -5,7 +5,7 @@ const QnSchema = mongoose.Schema({
     question:"string",
     
 })
-const question = mongoose.model('todos',todoSchema)
+const question = mongoose.model('question',QnSchema)
 module.exports={
-    question
-}
+   question:question
+ }

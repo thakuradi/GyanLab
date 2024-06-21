@@ -2,6 +2,6 @@ const zod = require("zod")
 const Creatqn=zod.object({
     question:zod.string
 })
-module.exports({
+module.exports={
     Creatqn:Creatqn
-})
+}
