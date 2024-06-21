@@ -1,7 +1,11 @@
-const zod = require("zod")
-const Creatqn=zod.object({
-    question:zod.string
+const zod = require("zod");
+const Createqn = zod.object({
+  question: zod.string(),
+});
+const CreateAns=zod.object({
+    answer:zod.string()
 })
-module.exports={
-    Creatqn:Creatqn
-}
+module.exports = {
+  Createqn,
+  CreateAns
+};

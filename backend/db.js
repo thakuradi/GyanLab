@@ -5,7 +5,13 @@ const QnSchema = mongoose.Schema({
     question:"string",
     
 })
+const AnsSchema=mongoose.Schema({
+    answer:"string",
+    questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'question', required: true }
+})
 const question = mongoose.model('question',QnSchema)
+const answer =mongoose.model('answer',AnsSchema)
 module.exports={
-   question:question
+   question:question,
+   answer:answer
  }
