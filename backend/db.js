@@ -9,9 +9,19 @@ const AnsSchema=mongoose.Schema({
     answer:"string",
     questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'question', required: true }
 })
+const UserSchema=mongoose.Schema({
+    name:"string",
+    email:"string",
+    password:"string",
+    token:"string"
+
+})
 const question = mongoose.model('question',QnSchema)
 const answer =mongoose.model('answer',AnsSchema)
+const User=mongoose.model("User",UserSchema)
 module.exports={
    question:question,
-   answer:answer
+   answer:answer,
+   User:User
+
  }
