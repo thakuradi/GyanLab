@@ -1,5 +1,5 @@
 const express = require("express");
-const { Createqn,CreateAns } = require("../type");
+const { Createqn,CreateAns } = require("./type");
 const { question,answer, } = require("../db");
 const app = express();
 app.use(express.json());
