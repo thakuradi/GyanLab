@@ -61,7 +61,7 @@ router.post("/signin", async function (req, res) {
     });
   }
 
-  const token = jwt.sign({ userId: user._id }, jwtpassword, { expiresIn: '1h' });
+  const token = jwt.sign({ userId: user._id }, jwtpassword);
   res.status(200).json({
     msg: "Sign in successful",
     token: token,
