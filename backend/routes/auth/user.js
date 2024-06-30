@@ -1,7 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const zod = require("zod");
-const { User } = require("../../db"); // Adjust the path as necessary
+const { User } = require("../../db"); 
 const router = express.Router();
 const jwtpassword = "123456";
 
