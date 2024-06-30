@@ -1,9 +1,34 @@
 const express = require("express");
 const { Createqn, CreateAns } = require("./type");
 const { question, answer } = require("../db");
+const {authMiddleware}=require("../middleware/middleware")
 const app = express.Router();
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "server running",
+  });
+});
+app.get("/me", authMiddleware, async (req, res) => {
+  const userId = req.userId;
+
+  if (!userId) {
+    return res.status(403).json({
+      message: "not logged in",
+    });
+  }
+
+  const user = await User.findById(userId);
+
+  res.status(200).json({
+    user: {
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    },
+  });
+});
 app.post("/questions", async function (req, res) {
   const createPayload = req.body;
   const parsePayload = Createqn.safeParse(createPayload);
