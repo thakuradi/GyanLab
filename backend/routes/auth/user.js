@@ -1,64 +1,71 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const app = express.Router();
 const zod = require("zod");
+const { User } = require("../../db"); // Adjust the path as necessary
+const router = express.Router();
 const jwtpassword = "123456";
-const { User } = require("../../db");
-app.use(express.json());
+
 const signupbody = zod.object({
   name: zod.string(),
   email: zod.string().email(),
   password: zod.string(),
 });
-app.post("/signup", async function (req, res) {
+
+const signinbody = zod.object({
+  email: zod.string().email(),
+  password: zod.string(),
+});
+
+router.post("/signup", async function (req, res) {
   const parsePayload = signupbody.safeParse(req.body);
   if (!parsePayload.success) {
-    return res.status(411).json({
-      msg: "incorrect input",
+    return res.status(400).json({
+      msg: "Incorrect input",
     });
   }
-  const name = req.body.name;
-  const username = req.body.email;
-  const password = req.body.password;
 
-  const existinguser = await User.findOne({ email: username });
+  const { name, email, password } = req.body;
+
+  const existinguser = await User.findOne({ email });
   if (existinguser) {
-    return res.status(400).send("Username already exist");
+    return res.status(400).json({
+      msg: "Username already exists",
+    });
   }
-  const user = await User.create({
-    name,
-    email: username,
-    password,
-  });
-  res.status(200).json({
-    msg: "user created sucessfully",
-  });
-  const signinbody = zod.object({
-    email: zod.string().email(),
-    password: zod.string(),
-  });
-  app.post("/signin", async function (req, res) {
-    const parsePayload = signinbody.safeParse(req.body);
-    if (!parsePayload.success) {
-      return res.status(411).json({
-        msg: "incorrect email or password",
-      });
+
+  const user = await User.create({ name, email, password });
+  res.status(201).json({
+    msg: "User created successfully",
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email
     }
-    const user = await User.findOne({
-      email: req.body.email,
-      password: req.body.password,
-    });
-    if (!user) {
-      return res.status(401).json({
-        msg: "Invalid credentials",
-      });
-    }
-    const token = jwt.sign({ userId: user._id }, jwtpassword);
-    res.status(200).json({
-      msg: "sign in successful",
-      token: token,
-    });
   });
 });
-app.listen(3000)
-// module.exports=app;
+
+router.post("/signin", async function (req, res) {
+  const parsePayload = signinbody.safeParse(req.body);
+  if (!parsePayload.success) {
+    return res.status(400).json({
+      msg: "Incorrect email or password",
+    });
+  }
+
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email, password });
+  if (!user) {
+    return res.status(401).json({
+      msg: "Invalid credentials",
+    });
+  }
+
+  const token = jwt.sign({ userId: user._id }, jwtpassword, { expiresIn: '1h' });
+  res.status(200).json({
+    msg: "Sign in successful",
+    token: token,
+  });
+});
+
+module.exports = router;
