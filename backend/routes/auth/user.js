@@ -60,5 +60,5 @@ app.post("/signup", async function (req, res) {
     });
   });
 });
-
-module.exports=app;
+app.listen(3000)
+// module.exports=app;
