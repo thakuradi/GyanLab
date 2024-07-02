@@ -5,12 +5,12 @@ const { User } = require("../../db");
 const router = express.Router();
 const jwtpassword = "123456";
 const {authMiddleware}=require("../../middleware/middleware")
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.status(200).json({
     message: "server running",
   });
 });
-app.get("/me", authMiddleware, async (req, res) => {
+router.get("/me", authMiddleware, async (req, res) => {
   const userId = req.userId;
 
   if (!userId) {

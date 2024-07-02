@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/v1", rootRouter);
+app.use("/api/v1/", rootRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).json({
@@ -15,5 +15,4 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(process.env.PORT || 3000);
-
+app.listen(3000);

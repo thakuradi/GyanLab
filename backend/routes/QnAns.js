@@ -13,19 +13,24 @@ app.post("/questions", async function (req, res) {
     res.status(411).json({
       msg: "you sent the wrong input",
     });
-    return;
+    return;  
   }
   await question.create({
+    userID:req.userID,
     question: createPayload.question,
   });
   res.json({
     msg: "question added",
   });
 });
-
-app.get("/question", async function (req, res) {
-  const questions = await question.find({});
+ 
+app.get("/question",authMiddleware, async function (req, res) {
+  const userID=req.userID         
+  const questions = await question.find({
+    userID:userID,
+  });
   res.json({
+    
     questions,
   });
 });
@@ -44,11 +49,12 @@ app.post("/answers/:id", async function (req, res) {
     questionId: id,
   });
   res.json({
+      
     msg: "answer  added",
   });
 });
-app.get("/answer", async function (req, res) {
-  const answer = await answer.find({});
+app.get("/answer",authMiddleware, async function (req, res) {
+  const answers = await answer.find({}).populate('questionId', 'question');
   res.json({
     answer,
   });
