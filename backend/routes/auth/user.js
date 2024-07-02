@@ -1,10 +1,10 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const zod = require("zod");
-const { User } = require("../../db"); 
+const { User } = require("../../db");
 const router = express.Router();
 const jwtpassword = "123456";
-const {authMiddleware}=require("../../middleware/middleware")
+const { authMiddleware } = require("../../middleware/middleware");
 router.get("/", (req, res) => {
   res.status(200).json({
     message: "server running",
@@ -63,8 +63,8 @@ router.post("/signup", async function (req, res) {
     user: {
       id: user._id,
       name: user.name,
-      email: user.email
-    }
+      email: user.email,
+    },
   });
 });
 
