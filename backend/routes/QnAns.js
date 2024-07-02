@@ -6,7 +6,7 @@ const app = express.Router();
 app.use(express.json());
 
 
-app.post("/questions", async function (req, res) {
+app.post("/questions",authMiddleware, async function (req, res) {
   const createPayload = req.body;
   const parsePayload = Createqn.safeParse(createPayload);
   if (!parsePayload.success) {
@@ -29,12 +29,11 @@ app.get("/question",authMiddleware, async function (req, res) {
   const questions = await question.find({
     userID:userID,
   });
-  res.json({
-    
+  res.json({ 
     questions,
   });
 });
-app.post("/answers/:id", async function (req, res) {
+app.post("/answers/:id",authMiddleware, async function (req, res) {
   const { id } = req.params;
   const createPayload = req.body;
   const parsePayload = CreateAns.safeParse(createPayload);
@@ -56,7 +55,7 @@ app.post("/answers/:id", async function (req, res) {
 app.get("/answer",authMiddleware, async function (req, res) {
   const answers = await answer.find({}).populate('questionId', 'question');
   res.json({
-    answer,
+    answers,
   });
 });
 module.exports=app;
