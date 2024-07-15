@@ -7,4 +7,4 @@ const router = express.Router();
 router.use("/user", userRouter);
 router.use("/account", QnAnsRouter);
 
-module.exports = router;   
+module.exports = router;
