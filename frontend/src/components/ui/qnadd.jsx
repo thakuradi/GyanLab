@@ -42,4 +42,4 @@ export function CreateQn(props){
 </div>
     )
 }
-
+  

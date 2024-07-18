@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { cn } from "@/lib/utils"
 
 const Input = React.forwardRef(({ className, type, ...props }, ref) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+ 
   return (
     (<input
       type={type}

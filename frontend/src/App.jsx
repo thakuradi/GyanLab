@@ -3,10 +3,11 @@ import { Input } from "./components/ui/input";
 import { useState } from "react";
 import { CreateQn } from "./components/ui/qnadd";
 export default function Home() {
-  const [val, setVal] = useState("");
-
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   function reset() {
-    setVal("");
+    setTitle("");
+    setDescription("")
   }
 
   return (
@@ -15,18 +16,17 @@ export default function Home() {
       <Input
         placeholder="Enter the Title"
         className="h-10 max-w-[800px]"
-        value={val}
-        onChange={(e) => setVal(e.target.value)}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
       /> <Input
       placeholder="Enter the description"
       className="h-20 max-w-[800px]"
-      value={val}
-      onChange={(e) => setVal(e.target.value)}
+      value={description}
+      onChange={(e) => setDescription(e.target.value)}
     />
       </div>
      
       <Button onClick={reset}>click me</Button>
-      <CreateQn></CreateQn>
     </div>
   );
 }
