@@ -27,6 +27,10 @@ export default function Home() {
       </div>
      
       <Button onClick={reset}>click me</Button>
+      <div>
+      <CreateQn ></CreateQn>
+      </div>
     </div>
   );
+  
 }
