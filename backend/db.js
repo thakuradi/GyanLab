@@ -3,18 +3,7 @@ const mongoose = require("mongoose");
 mongoose.connect(
   "mongodb+srv://aditya25022002:rOzA619i71BJMpq3@gyanlab.jpxqkvy.mongodb.net/"
 );
-const QnSchema = mongoose.Schema({
-  question: "string",
-  userID: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
-});
-const AnsSchema = mongoose.Schema({
-  answer: "string",
-  questionId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "question",
-    required: true,
-  },
-});
+
 const QnAnSchema=mongoose.Schema({
   userID:{type:mongoose.Schema.Types.ObjectId,ref:"user",required:true},
   question:"string",
