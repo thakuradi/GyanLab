@@ -33,7 +33,7 @@ const signupbody = zod.object({
   name: zod.string(),
   email: zod.string().email(),
   password: zod.string(),
-});
+});  
 
 const signinbody = zod.object({
   email: zod.string().email(),

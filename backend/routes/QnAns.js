@@ -1,6 +1,6 @@
 const express = require("express");
 const { Createqn, CreateAns } = require("./type");
-const { question, answer } = require("../db");
+const { qnans, answer,} = require("../db");
 const { authMiddleware } = require("../middleware/middleware");
 const app = express.Router();
 app.use(express.json());
@@ -14,9 +14,9 @@ app.post("/questions", authMiddleware, async function (req, res) {
     });
     return;
   }
-  await question.create({
+  await qnans.create({
     userID: req.userId,
-    question: createPayload.question,
+    question: req.body.question,
   });
   res.json({
     msg: "question added",
@@ -25,16 +25,16 @@ app.post("/questions", authMiddleware, async function (req, res) {
 
 app.get("/question", authMiddleware, async function (req, res) {
   const userID = req.userId;
-  const questions = await question.find({
+  const question = await qnans.findOne({
     userID: userID,
   });
   res.json({
-    questions,
+    question
   });
 });
-app.post("/answers/:id", authMiddleware, async function (req, res) {
-  const { id } = req.params;
+app.post("/answers", authMiddleware, async function (req, res) {
   const createPayload = req.body;
+  const questionId = req.headers['question-id']
   const parsePayload = CreateAns.safeParse(createPayload);
   if (!parsePayload.success) {
     res.status(411).json({
@@ -42,12 +42,22 @@ app.post("/answers/:id", authMiddleware, async function (req, res) {
     });
     return;
   }
-  await answer.create({
-    answer: createPayload.answer,
-    questionId: id,
-  });
+  const {answer} = createPayload;
+  const question = await qnans.findById(questionId);
+  if (!question) {
+    return res.status(404).json({ msg: "Question not found" });
+  }
+  console.log(answer)
+  const result = await qnans.updateOne(
+    { _id: questionId },
+    { $push: { answer: answer } }
+  );
+  // question.answer.(answer);
+  // await question.save();
+
   res.json({
-    msg: "answer  added",
+    msg: "Answer added successfully",
+    data: result,
   });
 });
 app.get("/answer", authMiddleware, async function (req, res) {

@@ -15,12 +15,18 @@ const AnsSchema = mongoose.Schema({
     required: true,
   },
 });
+const QnAnSchema=mongoose.Schema({
+  userID:{type:mongoose.Schema.Types.ObjectId,ref:"user",required:true},
+  question:"string",
+  answer:"Array"
+})
 const UserSchema = mongoose.Schema({
   name: "string",
   email: "string",
   password: "string",
   token: "string",
 });
+const qnans=mongoose.model("qnans",QnAnSchema)
 const question = mongoose.model("question", QnSchema);
 const answer = mongoose.model("answer", AnsSchema);
 const User = mongoose.model("User", UserSchema);
@@ -28,4 +34,5 @@ module.exports = {
   question: question,
   answer: answer,
   User: User,
+  qnans:qnans,
 };
