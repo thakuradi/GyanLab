@@ -23,7 +23,7 @@ app.post("/questions", authMiddleware, async function (req, res) {
   });
 });
 
-app.get("/question", authMiddleware, async function (req, res) {
+app.get("/userquestion", authMiddleware, async function (req, res) {
   const userID = req.userId;
   const question = await qnans.findOne({
     userID: userID,

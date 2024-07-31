@@ -16,8 +16,6 @@ const UserSchema = mongoose.Schema({
   token: "string",
 });
 const qnans=mongoose.model("qnans",QnAnSchema)
-const question = mongoose.model("question", QnSchema);
-const answer = mongoose.model("answer", AnsSchema);
 const User = mongoose.model("User", UserSchema);
 module.exports = {
   question: question,
