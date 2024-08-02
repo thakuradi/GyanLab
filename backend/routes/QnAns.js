@@ -25,7 +25,7 @@ app.post("/questions", authMiddleware, async function (req, res) {
 
 app.get("/userquestion", authMiddleware, async function (req, res) {
   const userID = req.userId;
-  const question = await qnans.findOne({
+  const question = await qnans.find({
     userID: userID,
   });
   res.json({
