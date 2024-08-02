@@ -1,16 +1,14 @@
+
+
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 
+function reset() {
+  setTitle("");
+  setDescription("")
+}
 
-
-export function CreateQn({QnAns}) {
-  const[qn,setQn]=useState([])
-  useEffect(()=>{
-  axios.get("http://localhost:3000/api/v1/account/question")
-  .then(function(response){ 
-    setQn(response.data.qn)
-  })
-},[])
+export function QnAns({qnans}) {
   return <div> 
     <div className='flex  justify-items-start min-h-screen'>
       <div className="rounded-xl box-border h-60 w-full shadow-md bg-white ">
@@ -56,4 +54,18 @@ function Qn({question}){
   return <div>
     {question}
   </div>
+}
+function getdata(qnans){
+  const[qn,setQn]=useState([])
+  const [ans,setAns]=useState([])
+  useEffect(()=>{
+  axios.get("http://localhost:3000/api/v1/account/question")
+  .then(function(response){ 
+    setQn(response.data.qn)
+  })
+},[])
+return 
+<div>
+  
+</div>
 }
