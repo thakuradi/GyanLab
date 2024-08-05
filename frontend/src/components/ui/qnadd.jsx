@@ -18,7 +18,27 @@ function reset() {
 }
 export function AddingQuestion() {
   const [qn, setQn] = useState("");
-  const[image,setImage]=useState()
+  const reset = () => {
+    setQn(""); 
+  };
+  const handleSubmit = async () => {
+    try {
+      await axios.post(
+        "http://localhost:3000/api/v1/account/questions",
+        {
+          question: qn,
+        },
+        {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      reset();
+    } catch (error) {
+      console.error("Error submitting question:", error);
+    }
+  };
   return (
     <div>
       <Card>
@@ -38,29 +58,7 @@ export function AddingQuestion() {
           </div>
         </CardHeader>
         <CardFooter className=" flex justify-center">
-          <Button
-            onClick={async () => {
-              useEffect(() => {
-                axios
-                  .post(
-                    "http://localhost:3000/api/v1/account/questions",
-                    {
-                      question: qn,
-                    },
-                    {
-                      headers: {
-                        authorization:
-                          "Bearer " + localStorage.getItem("token"),
-                      },
-                    }
-                  )
-                  .then(function (response) {
-                    setQn(response.data.question);
-                  });
-              }, []);
-            }}
-
-          >
+          <Button  onClick={handleSubmit} >
             Submit
           </Button>
         </CardFooter>

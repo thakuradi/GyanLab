@@ -1,10 +1,10 @@
 const express = require("express");
 const { Createqn, CreateAns } = require("./type");
-const { qnans, answer,} = require("../db");
+const { qnans, answer,images} = require("../db");
 const { authMiddleware } = require("../middleware/middleware");
 const app = express.Router();
-const multer =require("multer")
-const zod=require("zod")
+const multer = require("multer");
+const zod=require("zod");
 app.use(express.json());
 
 app.post("/questions", authMiddleware, async function (req, res) {
@@ -34,9 +34,6 @@ app.get("/userquestion", authMiddleware, async function (req, res) {
     question
   });
 });
-imagebody=zod.object({
-  image:zod.string()
-})
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/')
@@ -49,7 +46,27 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 app.post("/upload",upload.single("image"),async function(req,res){
-  const imagename=req.file.filename   
+  const imagename=req.file.filename  
+  try {
+    await images.create({image:imagename}
+  )
+  res.json({
+    status: "OK",
+  });
+  } catch (error) {
+    res.json({
+      status: error,
+    });
+  } 
+})
+app.get("/get-image",async (req,res)=>{
+  try {
+    images.find({}).then((data)=>{
+      res.send({stats:"ok",data:data})
+    })
+  } catch (error) {
+    res.send({status:error})
+  }
 })
 app.post("/answers", authMiddleware, async function (req, res) {
   const createPayload = req.body;
@@ -80,7 +97,8 @@ app.post("/answers", authMiddleware, async function (req, res) {
   });
 });
 app.get("/answer", authMiddleware, async function (req, res) {
-  const answers = await answer.find({}).populate("questionId", "question");
+  const { questionId } = req.headers("id")
+  const answers = await qnans.find({}).populate("questionId", "question");
   res.json({
     answers,
   });
