@@ -1,10 +1,11 @@
 const express = require("express");
 const { Createqn, CreateAns } = require("./type");
-const { qnans, answer,} = require("../db");
+const { qnans, answer,images} = require("../db");
 const { authMiddleware } = require("../middleware/middleware");
 const app = express.Router();
 app.use(express.json());
-
+const zod =require("zod")
+const multer =require("multer")
 app.post("/questions", authMiddleware, async function (req, res) {
   const createPayload = req.body;
   const parsePayload = Createqn.safeParse(createPayload);
@@ -22,6 +23,23 @@ app.post("/questions", authMiddleware, async function (req, res) {
     msg: "question added",
   });
 });
+imagebody=zod.object({
+  image:zod.string()
+})
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() 
+    cb(null, uniqueSuffix=file.originalname)
+  }
+})
+
+const upload = multer({ storage: storage })
+app.post("/upload",upload.single("image"),async function(req,res){
+  
+})
 
 app.get("/userquestion", authMiddleware, async function (req, res) {
   const userID = req.userId;
