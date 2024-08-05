@@ -15,9 +15,14 @@ const UserSchema = mongoose.Schema({
   password: "string",
   token: "string",
 });
+const imageSchema=mongoose.Schema({
+  image:"string",
+})
+const images=mongoose.model("images",imageSchema)
 const qnans=mongoose.model("qnans",QnAnSchema)
 const User = mongoose.model("User", UserSchema);
 module.exports = {
   User: User,
   qnans:qnans,
+  images,images
 };
