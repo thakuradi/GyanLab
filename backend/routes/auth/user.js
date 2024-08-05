@@ -51,6 +51,7 @@ router.post("/signup", async function (req, res) {
   const { name, email, password } = req.body;
 
   const existinguser = await User.findOne({ email });
+ 
   if (existinguser) {
     return res.status(400).json({
       msg: "Username already exists",
@@ -58,13 +59,12 @@ router.post("/signup", async function (req, res) {
   }
 
   const user = await User.create({ name, email, password });
+  const token = jwt.sign({
+    userId:user._id
+  },jwtpassword)
   res.status(201).json({
     msg: "User created successfully",
-    user: {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-    },
+    token
   });
 });
 
