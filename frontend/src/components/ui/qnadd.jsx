@@ -18,6 +18,7 @@ function reset() {
 }
 export function AddingQuestion() {
   const [qn, setQn] = useState("");
+  const[image,setImage]=useState()
   return (
     <div>
       <Card>
@@ -32,6 +33,7 @@ export function AddingQuestion() {
                 }}
                 placeholder="Enter Your Question"
               />
+              <input></input>
             </div>
           </div>
         </CardHeader>
