@@ -2,10 +2,10 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{js,jsx}',
-    './components/**/*.{js,jsx}',
-    './app/**/*.{js,jsx}',
-    './src/**/*.{js,jsx}',
+    "./pages/**/*.{js,jsx}",
+    "./components/**/*.{js,jsx}",
+    "./app/**/*.{js,jsx}",
+    "./src/**/*.{js,jsx}",
   ],
   prefix: "",
   theme: {
@@ -71,7 +71,20 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      fontFamily: {
+        poller: ["Poller One", "sans-serif"],
+        Architect: ["Architects Daughter","cursive"],
+      },
+      fontSize: {
+        "custom-25": "25px",
+      },
+      lineHeight: {
+        "custom-36": "36.88px",
+      },
+      textAlign: {
+        center: "center",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
