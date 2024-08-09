@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -17,6 +18,7 @@ import { Label } from "@/components/ui/label";
 export function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate=useNavigate()
   return (
     <div className="flex h-screen items-center justify-center">
       <Card className="w-[350px]">
@@ -53,6 +55,7 @@ export function Signin() {
                   password: password,
                 })
             localStorage.setItem("token",response.data.token)
+            navigate("/qnans")
             }}
             label={"Sign in"}>Sign In</Button>
         </CardFooter>
