@@ -74,6 +74,7 @@ module.exports = {
       fontFamily: {
         poller: ["Poller One", "sans-serif"],
         Architect: ["Architects Daughter","cursive"],
+        inter: ['Inter', 'sans-serif'],
       },
       fontSize: {
         "custom-25": "25px",
