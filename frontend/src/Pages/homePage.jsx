@@ -1,5 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  AiFillFacebook,
+  AiFillTwitterCircle,
+  AiFillLinkedin,
+  AiFillInstagram,
+  AiFillYoutube,
+} from "react-icons/ai";
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -12,6 +19,11 @@ export function HomePage() {
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.scrollTo({
+        top: section.offsetTop,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -23,14 +35,14 @@ export function HomePage() {
           <img
             src="/src/assets/gyaanlab_logo.png"
             alt="GyaanLab Logo"
-            className="h-8 w-8"
+            className="h-10 w-10"
           />
           <span className="font-poller text-custom-25 font-normal leading-custom-36">
             GyaanLab
           </span>
         </div>
 
-        <div className="flex space-x-8">
+        <div className="hidden md:flex space-x-8">
           <a
             onClick={() => scrollToSection("home")}
             className="cursor-pointer hover:text-blue-400"
@@ -57,7 +69,7 @@ export function HomePage() {
           </a>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-4">
           <div className="flex flex-col items-end">
             <span>Contact us:</span>
             <span>+91 84 84 84 9658</span>
@@ -138,14 +150,17 @@ export function HomePage() {
           Nurturing Young Minds..
         </div>
 
-        <button className="absolute top-80 left-32 w-44 h-11 p-2 rounded-lg border border-transparent bg-orange-500 text-white z-10">
+        <button
+          onClick={() => scrollToSection("contact_us")}
+          className="absolute top-80 left-32 w-44 h-11 p-2 rounded-lg border border-transparent bg-orange-500 text-white z-10 hover:bg-orange-600"
+        >
           Contact Us
         </button>
 
         <img
           src="/src/assets/home_picture.png"
           alt="Illustration"
-          className="absolute"
+          className="absolute hidden lg:block"
           style={{
             width: "667px",
             height: "399px",
@@ -156,7 +171,7 @@ export function HomePage() {
         />
       </section>
       <div
-        className="absolute"
+        className="absolute hidden lg:block"
         style={{
           width: "820px",
           height: "229.18px",
@@ -185,6 +200,7 @@ export function HomePage() {
         </div>
       </div>
 
+      {/* Courses Section */}
       {/* Courses Section */}
       <section id="courses" className="py-20 relative">
         {/* <h2 className="text-center text-3xl font-bold mb-10">Courses</h2> */}
@@ -283,7 +299,10 @@ export function HomePage() {
                   their conceptual base to get good grades in school and Board
                   Exam.
                 </h4>
-                <button className="px-4 py-2 border border-transparent rounded-lg text-white bg-orange-500 hover:bg-orange-600">
+                <button
+                  className="px-4 py-2 border border-transparent rounded-lg text-white bg-orange-500 hover:bg-orange-600"
+                  onClick={() => scrollToSection("enquire")}
+                >
                   Enquire Now!
                 </button>
               </div>
@@ -293,9 +312,9 @@ export function HomePage() {
       </section>
 
       {/* About Us Section */}
-      <section id="about" className="py-20 bg-slate-700">
+      <section id="about" className="py-18 bg-slate-700">
         {/* <h2 className="text-center text-3xl font-bold mb-4">About Us</h2> */}
-        <div className="relative w-[1440px] h-[556px] text-white">
+        <div className="relative w-[1400px] h-[556px] text-white">
           {/* Testimonials Heading */}
           <div className="absolute top-0 left-24 w-full text-left pl-10 pt-8">
             <h2 className="text-[40px] font-bold leading-[48px] mb-2">
@@ -389,74 +408,6 @@ export function HomePage() {
           </div>
         </div>
 
-        {/* Contact section
-        <div className="bg-white py-12">
-          <div className="container mx-auto">
-            {/* Contact Details Box *}
-            <div className="flex justify-between items-center bg-white-100 p-6 rounded-lg">
-              {/* Contact Image *}
-              <div className="w-1/2">
-                <img
-                  src="/src/assets/About_us_contact.png"
-                  alt="Contact Us"
-                  className="w-full rounded-lg"
-                />
-              </div>
-
-              {/* Contact Details *}
-              <div className="w-1/2 pl-12">
-                <div className="flex items-center mb-4">
-                  <h3 className="text-3xl font-bold text-orange-600 mr-2">
-                    Our Contact
-                  </h3>
-                  <img
-                    src="/src/assets/logo_home.png"
-                    alt="GyaanLab Logo"
-                    className="h-11 w-11"
-                  />
-                </div>
-
-                <p className="mb-4">
-                  <span className="font-bold">GyaanLab Academy,</span>
-                  <br />
-                  Opposite Dutt Hotel, Above KOTAK ATM,
-                  <br />
-                  Yashwant Nagar, Kharadi Road, Pune - 14
-                </p>
-                <p className="text-orange-600 mb-2">
-                  gyaanlabacademy@gmail.com
-                </p>
-                <p>
-                  +91 84848 49658 <br /> +91 85510 66450
-                </p>
-              </div>
-            </div>
-
-            {/* Enquire Now Form *}
-            <div className="mt-6 bg-[#004aad] rounded-lg p-4">
-              <h4 className="text-white text-xl font-bold mb-2">Enquire Now</h4>
-              <form className="flex space-x-3">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  className="px-4 py-2 border rounded-lg w-1/2"
-                />
-                <input
-                  type="text"
-                  placeholder="Contact no:"
-                  className="px-4 py-2 border rounded-lg w-1/2"
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-orange-500 text-white rounded-lg"
-                >
-                  Submit
-                </button>
-              </form>
-            </div>
-          </div>
-        </div> */}
-
         {/* Contact section */}
         <div className="bg-white py-12">
           <div className="container mx-auto">
@@ -472,7 +423,7 @@ export function HomePage() {
               </div>
 
               {/* Contact Details */}
-              <div className="w-1/2 pl-12">
+              <div id="contact_us" className="w-1/2 pl-12">
                 <div className="flex items-center mb-6">
                   <h3 className="text-4xl font-bold text-orange-600 mr-3">
                     Our Contact
@@ -501,7 +452,10 @@ export function HomePage() {
             </div>
 
             {/* Enquire Now Form */}
-            <div className="mt-6 bg-[#004aad] rounded-lg p-6 max-w-4xl mx-auto">
+            <div
+              id="enquire"
+              className="mt-6 bg-[#004aad] rounded-lg p-6 max-w-4xl mx-auto"
+            >
               <h4 className="text-white text-2xl font-bold mb-4">
                 Enquire Now
               </h4>
@@ -518,7 +472,7 @@ export function HomePage() {
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-orange-500 text-white rounded-lg flex-shrink-0"
+                  className="px-6 py-3 bg-orange-500 text-white rounded-lg flex-shrink-0 hover:bg-orange-600"
                 >
                   Submit
                 </button>
@@ -528,93 +482,116 @@ export function HomePage() {
         </div>
 
         {/* Footer Section */}
-        <footer className="bg-black text-white py-8">
-          <div className="container mx-auto flex justify-between">
-            <div className="flex flex-col items-center">
-              <img
-                src="/src/assets/gyaanlab_logo.png"
-                alt="GyaanLab Logo"
-                className="mb-4 h-20 w-20"
-              />
-              <div className="flex space-x-4 mb-4">
-                <a href="#" className="text-orange-500 hover:text-white">
-                  Instagram
-                </a>
-                <a href="#" className="text-orange-500 hover:text-white">
-                  Facebook
-                </a>
-                <a href="#" className="text-orange-500 hover:text-white">
-                  Twitter
-                </a>
-                <a href="#" className="text-orange-500 hover:text-white">
-                  LinkedIn
-                </a>
-                <a href="#" className="text-orange-500 hover:text-white">
-                  YouTube
-                </a>
-              </div>
-              <div>
-                <a href="#" className="text-sm text-gray-400 hover:text-white">
-                  Privacy Policy
-                </a>
-                <span className="mx-2">|</span>
-                <a href="#" className="text-sm text-gray-400 hover:text-white">
-                  Terms and Conditions
-                </a>
-              </div>
-            </div>
-            <div className="flex space-x-16">
-              <div>
-                <h3 className="text-lg font-bold mb-4">GyaanLab</h3>
-                <ul>
-                  <li className="mb-2">
-                    <a href="#" className="text-gray-400 hover:text-white">
-                      About
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a href="#" className="text-gray-400 hover:text-white">
-                      Features
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a href="#" className="text-gray-400 hover:text-white">
-                      Works
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a href="#" className="text-gray-400 hover:text-white">
-                      Careers
-                    </a>
-                  </li>
-                </ul>
+        <footer className="bg-black text-white py-6">
+          <div className="container mx-auto flex flex-col items-center justify-between">
+            {/* Top Section: Logo, Social Media, and Links */}
+            <div className="w-full flex justify-between items-center mb-7">
+              {/* Logo and Social Icons */}
+              <div className="flex flex-col items-center">
+                <img
+                  src="/src/assets/gyaanlab_logo.png"
+                  alt="GyaanLab Logo"
+                  className="mb-5 h-20 w-20"
+                />
+                <div className="flex space-x-6 mb-4">
+                  <a
+                    href="#"
+                    className="text-orange-500 hover:text-white text-3xl"
+                  >
+                    <AiFillInstagram />
+                  </a>
+                  <a
+                    href="#"
+                    className="text-orange-500 hover:text-white text-3xl"
+                  >
+                    <AiFillFacebook />
+                  </a>
+                  <a
+                    href="#"
+                    className="text-orange-500 hover:text-white text-3xl"
+                  >
+                    <AiFillTwitterCircle />
+                  </a>
+                  <a
+                    href="#"
+                    className="text-orange-500 hover:text-white text-3xl"
+                  >
+                    <AiFillLinkedin />
+                  </a>
+                  <a
+                    href="#"
+                    className="text-orange-500 hover:text-white text-3xl"
+                  >
+                    <AiFillYoutube />
+                  </a>
+                </div>
               </div>
 
-              <div>
-                <h3 className="text-lg font-bold mb-4">Help</h3>
-                <ul>
-                  <li className="mb-2">
-                    <a href="#" className="text-gray-400 hover:text-white">
-                      Customer Support
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a href="#" className="text-gray-400 hover:text-white">
-                      Delivery Details
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a href="#" className="text-gray-400 hover:text-white">
-                      Terms and Conditions
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a href="#" className="text-gray-400 hover:text-white">
-                      Privacy Policy
-                    </a>
-                  </li>
-                </ul>
+              {/* GyaanLab and Help Sections */}
+              <div className="flex space-x-16">
+                <div>
+                  <h3 className="text-lg font-bold mb-4">GyaanLab</h3>
+                  <ul>
+                    <li className="mb-2">
+                      <a href="#" className="text-gray-400 hover:text-white">
+                        About
+                      </a>
+                    </li>
+                    <li className="mb-2">
+                      <a href="#" className="text-gray-400 hover:text-white">
+                        Features
+                      </a>
+                    </li>
+                    <li className="mb-2">
+                      <a href="#" className="text-gray-400 hover:text-white">
+                        Works
+                      </a>
+                    </li>
+                    <li className="mb-2">
+                      <a href="#" className="text-gray-400 hover:text-white">
+                        Careers
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold mb-4">Help</h3>
+                  <ul>
+                    <li className="mb-2">
+                      <a href="#" className="text-gray-400 hover:text-white">
+                        Customer Support
+                      </a>
+                    </li>
+                    <li className="mb-2">
+                      <a href="#" className="text-gray-400 hover:text-white">
+                        Delivery Details
+                      </a>
+                    </li>
+                    <li className="mb-2">
+                      <a href="#" className="text-gray-400 hover:text-white">
+                        Terms and Conditions
+                      </a>
+                    </li>
+                    <li className="mb-2">
+                      <a href="#" className="text-gray-400 hover:text-white">
+                        Privacy Policy
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
+            </div>
+
+            {/* Bottom Section: Privacy Policy and Terms */}
+            <div className="flex justify-center w-full">
+              <a href="#" className="text-sm text-orange-500 hover:text-white">
+                Privacy Policy
+              </a>
+              <span className="mx-2">|</span>
+              <a href="#" className="text-sm text-orange-500 hover:text-white">
+                Terms and Conditions
+              </a>
             </div>
           </div>
         </footer>
