@@ -12,10 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-function reset() {
-  setQn("");
 
-}
 export function AddingQuestion() {
   const [qn, setQn] = useState("");
   const reset = () => {

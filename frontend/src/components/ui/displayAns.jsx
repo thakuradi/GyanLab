@@ -1,26 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSearchParams } from "react-router-dom";
+import { AddAns } from './ansadd';
 export function DisplayAns() {
   const [qn, setQn] = useState([]);
-  const [Filter, setFilter] = useState("");
+  const [filter, setFilter] = useSearchParams();
+  const id = filter.get("id")
+  const  question = filter.get("question")
+  const [ans, setAns] = useState("");
+  const reset = () => {
+    setAns(""); 
+  };
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/v1/account/userquestion", {
+    axios.get("http://localhost:3000/api/v1/account/answer", {
       headers: {
         authorization: "Bearer " + localStorage.getItem("token"),
+        "id":id
       },
     })
     .then(function (response) { 
-      setQn(response.data.question);
+      setQn(response.data.answers);
     });
   }, []);
 
+
   return (
     <div className="container mx-auto p-4">
+      <AddAns></AddAns>
       <div className="bg-white shadow-md rounded-lg p-6">
-        {qn.map((answer) => (
-          <Qn key={answer._id} answer={answer} />
+        {qn.map((ans,index) => (
+          <Qn  key={index} answer={ans} />
         ))}
       </div>
     </div>
@@ -29,13 +39,10 @@ export function DisplayAns() {
 
 
 function Qn({ answer }) {
-  let [searchParams, setSearchParams] = useSearchParams();
-  const id = searchParams.get("id")
-  const  question = searchParams.get("question")
   return (
     <div className="border-b border-gray-200 py-4">
-      <h1 className="text-lg font-semibold">{question}</h1>
-      <p className="text-lg font-semibold">{answer.answer}</p>
+ 
+      <p className="text-lg font-semibold">{answer}</p>
     </div>
   );
 }

@@ -77,6 +77,8 @@ app.post("/answers", authMiddleware, async function (req, res) {
     return;
   }
   const {answer} = createPayload;
+  
+  console.log(answer,{questionId})
   const question = await qnans.findById(questionId);
   if (!question) {
     return res.status(404).json({ msg: "Question not found" });
@@ -95,8 +97,9 @@ app.post("/answers", authMiddleware, async function (req, res) {
   });
 });
 app.get("/answer", authMiddleware, async function (req, res) {
-  const { questionId } = req.headers("id")
-  const answers = await qnans.find({}).populate("questionId", "question");
+  const questionId = req.headers["id"]
+  const question = await qnans.findById(questionId)
+  const answers=question.answer
   res.json({
     answers,
   });
