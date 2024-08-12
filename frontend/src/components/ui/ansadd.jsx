@@ -32,8 +32,9 @@ export function AddAns() {
         {
           headers: {
             authorization: "Bearer " + localStorage.getItem("token"),
+            "question-id":id
           },
-          "question-id":id
+          
         }
       );
       reset();
