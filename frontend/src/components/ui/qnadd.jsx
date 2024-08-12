@@ -40,7 +40,7 @@ export function AddingQuestion() {
     <div>
       <Card>
         <CardHeader>
-          <div className=" flex justify-center">Welcome to Gyan Lab</div>
+          <div className=" flex justify-center">Welcome to Gyan Lab <Button></Button></div>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="question">Question</Label>

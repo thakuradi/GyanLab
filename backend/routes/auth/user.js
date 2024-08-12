@@ -91,5 +91,11 @@ router.post("/signin", async function (req, res) {
     token: token,
   });
 });
+router.post("/signout",authMiddleware,async (req,res)=>{
+  res.status(200).json({
+    msg: "Sign out successful",
+  });
+})
 
 module.exports = router;
+     

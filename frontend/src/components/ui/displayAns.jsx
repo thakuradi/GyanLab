@@ -6,11 +6,7 @@ export function DisplayAns() {
   const [qn, setQn] = useState([]);
   const [filter, setFilter] = useSearchParams();
   const id = filter.get("id")
-  const  question = filter.get("question")
-  const [ans, setAns] = useState("");
-  const reset = () => {
-    setAns(""); 
-  };
+ 
 
   useEffect(() => {
     axios.get("http://localhost:3000/api/v1/account/answer", {

@@ -13,11 +13,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 export function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate=useNavigate()
 
   return (
     <div className="flex h-screen items-center justify-center">
@@ -35,7 +36,7 @@ export function Signup() {
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
-                  placeholder="Onkar "
+                  placeholder="Enter Your Name "
                 />
               </div>
             </div>
@@ -52,12 +53,13 @@ export function Signup() {
             </div>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Password</Label>
+                <Label  className="block text-sm mb-2 dark:text-white">Password</Label>
                 <Input
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
                   placeholder="Enter the password"
+                  type="password"
                 />
               </div>
             </div>
@@ -73,12 +75,16 @@ export function Signup() {
                   password: password,
                 })
             localStorage.setItem("token",response.data.token)
+            navigate("/qnans")
             }}
             label={"Sign up"}
+            
           >
             Sign Up
           </Button>
         </CardFooter>
+        <div className="flex justify-center">Already Have an Account? <Link className="font-normal md:font-bold ..."to="/signin">SignIn</Link></div>
+
       </Card>
     </div>
   );

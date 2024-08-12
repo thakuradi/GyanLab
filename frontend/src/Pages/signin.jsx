@@ -39,10 +39,10 @@ export function Signin() {
             </div>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Password</Label>
+                <Label className="block text-sm mb-2 dark:text-white">Password</Label>
                 <Input  onChange={(e) => {
                     setPassword(e.target.value);
-                  }}id="password" placeholder="Enter the password" />
+                  }}id="password" placeholder="Enter the password" type="password" />
               </div>  
             </div>
           </form>
@@ -59,6 +59,7 @@ export function Signin() {
             }}
             label={"Sign in"}>Sign In</Button>
         </CardFooter>
+        <div className="flex justify-center">Don't Have an Account? <Link className="font-normal md:font-bold ..."to="/signup">Signup</Link></div>
       </Card>
     </div>
   );

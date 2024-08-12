@@ -76,6 +76,7 @@ app.post("/answers", authMiddleware, async function (req, res) {
     });
     return;
   }
+
   const {answer} = createPayload;
   
   console.log(answer,{questionId})
