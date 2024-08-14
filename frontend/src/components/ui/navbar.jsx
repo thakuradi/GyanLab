@@ -1,16 +1,24 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../../AuthContext'; 
+
 function Navbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const navigate = useNavigate();
-
-  const handleSignInClick = () => {
-    navigate("/signin");
+  const handleAuthClick = () => {
+    if (isLoggedIn) {
+      localStorage.removeItem('token');
+      setIsLoggedIn(false);
+      navigate("/");
+    } else {
+      navigate("/signin");
+    }
   };
 
   const scrollToSection = (sectionId) => {
@@ -55,6 +63,9 @@ function Navbar() {
           <a onClick={() => scrollToSection("courses")} className="cursor-pointer hover:text-blue-400">Courses</a>
           <a onClick={() => scrollToSection("exams")} className="cursor-pointer hover:text-blue-400">Entrance Exams</a>
           <a onClick={() => scrollToSection("about")} className="cursor-pointer hover:text-blue-400">About us</a>
+          {/* {isLoggedIn && (
+            <Link to="/qnans" className="cursor-pointer hover:text-blue-400">Q&A</Link>
+          )} */}
         </div>
 
         <div className="hidden md:flex items-center space-x-4">
@@ -68,10 +79,10 @@ function Navbar() {
           </button>
 
           <button
-            onClick={handleSignInClick}
+            onClick={handleAuthClick}
             className="px-4 py-2 border border-transparent rounded-lg text-white bg-orange-500 hover:bg-orange-600"
           >
-            Sign In
+            {isLoggedIn ? "Sign Out" : "Sign In"}
           </button>
         </div>
       </div>
@@ -91,6 +102,9 @@ function Navbar() {
           <a onClick={() => scrollToSection("courses")} className="cursor-pointer hover:text-blue-400">Courses</a>
           <a onClick={() => scrollToSection("exams")} className="cursor-pointer hover:text-blue-400">Entrance Exams</a>
           <a onClick={() => scrollToSection("about")} className="cursor-pointer hover:text-blue-400">About us</a>
+          {/* {isLoggedIn && (
+            <Link to="/qnans" className="cursor-pointer hover:text-blue-400">Q&A</Link>
+          )} */}
           <div className="flex flex-col items-start mt-4">
             <span>Contact us:</span>
             <span>+91 84 84 84 9658</span>
@@ -99,10 +113,9 @@ function Navbar() {
             Fee Structure
           </button>
           <button
-            onClick={handleSignInClick}
-            className="px-4 py-2 border border-transparent rounded-lg text-white bg-orange-500 hover:bg-orange-600"
-          >
-            Sign In
+            onClick={handleAuthClick}
+            className="px-4 py-2 border border-transparent rounded-lg text-white bg-orange-500 hover:bg-orange-600">
+            {isLoggedIn ? "Sign Out" : "Sign In"}
           </button>
         </div>
       </div>
