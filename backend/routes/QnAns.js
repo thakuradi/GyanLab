@@ -1,15 +1,24 @@
 const express = require("express");
 const { Createqn, CreateAns } = require("./type");
-const { qnans, answer,images} = require("../db");
+const { qnans, answer, images } = require("../db");
 const { authMiddleware } = require("../middleware/middleware");
 const app = express.Router();
 const multer = require("multer");
 const path = require('path');
-const zod=require("zod");
+const zod = require("zod");
+const fs = require('fs');
+
 app.use(express.json());
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/')
+    cb(null, uploadsDir)
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
@@ -27,94 +36,133 @@ const upload = multer({
     }
   }
 })
-app.post("/questions",upload.single("image"),authMiddleware, async function (req, res) {
-  const createPayload = req.body;
-  const parsePayload = Createqn.safeParse(createPayload);
-  if (!parsePayload.success) {
-    res.status(411).json({
-      msg: "you sent the wrong input",
+
+app.post("/questions", upload.single("image"), authMiddleware, async function (req, res) {
+  try {
+    const createPayload = req.body;
+    const parsePayload = Createqn.safeParse(createPayload);
+    if (!parsePayload.success) {
+      return res.status(411).json({
+        msg: "You sent the wrong input",
+      });
+    }
+    console.log(req.body)
+    const newQuestion = await qnans.create({
+      userID: req.userId,
+      question: req.body.question,
+      image: req.file ? req.file.filename : null
     });
-    return;
+    res.json({
+      msg: "Question added",
+      question: newQuestion
+    });
+  } catch (error) {
+    console.error("Error in /questions:", error);
+    res.status(500).json({
+      msg: "Internal server error",
+      error: error.message
+    });
   }
-  console.log(req.body)
-  await qnans.create({
-    userID: req.userId,
-    question: req.body.question,
-    image: req.file ? req.file.filename : null
-  });
-  res.json({
-    msg: "question added",
-  });
 });
 
 app.get("/userquestion", authMiddleware, async function (req, res) {
-  const userID = req.userId;
-  const question = await qnans.find({ });
-  res.json({
-    question
-  });
+  try {
+    const questions = await qnans.find({});
+    res.json({
+      question: questions.map(q => ({
+        _id: q._id,
+        question: q.question,
+        image: q.image || null // Ensure image is always included, even if null
+      }))
+    });
+  } catch (error) {
+    console.error("Error in /userquestion:", error);
+    res.status(500).json({
+      msg: "Internal server error",
+      error: error.message
+    });
+  }
 });
 
-app.post("/upload",upload.single("image"),async function(req,res){
-  const imagename=req.file.filename  
+app.post("/upload", upload.single("image"), async function(req, res) {
   try {
-    await images.create({image:imagename}
-  )
-  res.json({
-    status: "OK",
-  });
-  } catch (error) {
+    if (!req.file) {
+      return res.status(400).json({ status: "error", message: "No file uploaded" });
+    }
+    const imagename = req.file.filename;
+    await images.create({ image: imagename });
     res.json({
-      status: error,
+      status: "OK",
+      filename: imagename
+    });
+  } catch (error) {
+    console.error("Error in /upload:", error);
+    res.status(500).json({
+      status: "error",
+      message: error.message
     });
   } 
 })
-app.get("/get-image",async (req,res)=>{
+
+app.get("/get-image", async (req, res) => {
   try {
-    images.find({}).then((data)=>{
-      res.send({stats:"ok",data:data})
-    })
+    const data = await images.find({});
+    res.send({ status: "ok", data: data });
   } catch (error) {
-    res.send({status:error})
+    console.error("Error in /get-image:", error);
+    res.status(500).json({
+      status: "error",
+      message: error.message
+    });
   }
 })
-app.post("/answers", authMiddleware, async function (req, res) {
-  const createPayload = req.body;
-  const questionId = req.headers['question-id']
-  const parsePayload = CreateAns.safeParse(createPayload);
-  if (!parsePayload.success) {
-    res.status(411).json({
-      msg: "you sent the wrong input",
+
+app.post("/questions", upload.single("image"), authMiddleware, async function (req, res) {
+  try {
+    const createPayload = req.body;
+    const parsePayload = Createqn.safeParse(createPayload);
+    if (!parsePayload.success) {
+      return res.status(411).json({
+        msg: "You sent the wrong input",
+      });
+    }
+    console.log(req.body)
+    const newQuestion = await qnans.create({
+      userID: req.userId,
+      question: req.body.question,
+      image: req.file ? req.file.filename : null
     });
-    return;
+    res.json({
+      msg: "Question added",
+      question: newQuestion
+    });
+  } catch (error) {
+    console.error("Error in /questions:", error);
+    res.status(500).json({
+      msg: "Internal server error",
+      error: error.message
+    });
   }
-
-  const {answer} = createPayload;
-  
-  console.log(answer,{questionId})
-  const question = await qnans.findById(questionId);
-  if (!question) {
-    return res.status(404).json({ msg: "Question not found" });
-  }
-  console.log(answer)
-  const result = await qnans.updateOne(
-    { _id: questionId },
-    { $push: { answer: answer } }
-  );
-  // question.answer.(answer);
-  // await question.save();
-
-  res.json({
-    msg: "Answer added successfully",
-    data: result,
-  });
 });
+
 app.get("/answer", authMiddleware, async function (req, res) {
-  const questionId = req.headers["id"]
-  const question = await qnans.findById(questionId)
-  const answers=question.answer
-  res.json({
-    answers,
-  });
+  try {
+    const questionId = req.headers["id"]
+    const question = await qnans.findById(questionId)
+    if (!question) {
+      return res.status(404).json({ msg: "Question not found" });
+    }
+    const answers = question.answer
+    res.json({
+      answers,
+    });
+  } catch (error) {
+    console.error("Error in /answer:", error);
+    res.status(500).json({
+      msg: "Internal server error",
+      error: error.message
+    });
+  }
 });
+
 module.exports = app;
